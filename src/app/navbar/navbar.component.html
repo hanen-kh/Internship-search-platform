@@ -1,0 +1,289 @@
+<style>
+  * {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+:root {
+  --title-font: "Poppins", sans-serif;
+  --body-font: "Poppins", sans-serif;
+}
+
+body {
+  font-family: var(--body-font);
+}
+
+.header {
+  margin: 60px auto;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(20px);
+  height: 50px;
+  position: fixed;
+  top: 0;
+  left: 200px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(247, 248, 248, 0.1);
+  border-radius: 15px;
+  z-index: 1000;
+  width: 100%;
+  max-width: 850px;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.nav {
+  width: 100%;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  justify-content: space-between; /* Distribuye los elementos uniformemente */
+  width: 100%;
+  padding: 0 12px; /* Añade padding personalizado a los lados */
+}
+
+.menu__item:first-child .menu__link {
+  padding-left: 12px; /* Padding adicional en el primer elemento */
+}
+
+.menu__item:last-child .menu__link {
+  padding-right: 12px; /* Padding adicional en el último elemento */
+}
+
+.menu__link {
+  text-decoration: none;
+  color: #fff;
+  font-size: 0.8em;
+  display: flex;
+  height: 35px;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  text-align: center;
+  padding: 0 10px;
+  transition: all 0.3s ease;
+  border: 1px solid transparent; /* Añade un borde transparente inicialmente */
+  border-radius: 15px; /* Mantén el borde redondeado siempre */
+}
+
+/* Efecto hover */
+.menu__link:hover {
+  background-color: #95bdf1;
+  border-color: rgba(26, 5, 180, 0.1); /* Cambia solo el color del borde al hacer hover */
+}
+
+.banner {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  
+  justify-content: center;
+}
+
+.slider {
+  width: 100%;
+  height: 80vw;
+  max-height: 650px; /* add a max height to prevent the slider from becoming too tall */
+  overflow: hidden;
+  overflow-x: hidden;
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.slider-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.slider-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slider-arrows {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+}
+
+.slider-arrow-right {
+  position: absolute;
+  right: 15px;
+}
+
+.slider-arrow-left {
+  position: absolute;
+  left: 15px;
+}
+
+.slider-arrow {
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.slider-arrow img {
+  width: 40px;
+  height: 40px;
+  fill: #fff;
+}
+
+.slider-arrow:hover {
+  transform: scale(1.2);
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.slider-dots {
+  bottom: 125px;
+  display: flex;
+  margin-top: 10px;
+  justify-content: center;
+  width: 100%;
+  padding: 0 10px;
+}
+
+.slider-dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 10px;
+  border-radius: 50%;
+  background-color: transparent; /* change the background color to transparent */
+  border: 2px solid #bbb; /* add a border to the dots */
+  transition: background-color 0.2s ease-in-out;
+}
+
+.slider-dot.active {
+  background-color: #fff; /* change the background color of the active dot to white */
+}
+
+.slider-dot:hover {
+  background-color: #fff;
+  border: 2px solid #fff;
+}
+
+.slider-text {
+  font-family: "Squada One", sans-serif;
+  font-size: 4vw;
+  text-transform: uppercase;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  text-align: center;
+}
+
+@media only screen and (max-width: 768px) {
+  .slider-text {
+    font-size: 28px;
+  }
+  .slider-arrow {
+    width: 35px;
+    height: 35px;
+  }
+  .slider-arrow img {
+    width: 25px;
+    height: 25px;
+  }
+  .slider-dot {
+    height: 8px;
+    width: 8px;
+    margin: 0 4px;
+    border-width: 1px;
+  }
+  .slider-dot.active {
+    border-width: 2px;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .slider-text {
+    font-size: 2.5vw;
+  }
+  .slider-arrow {
+    width: 60px;
+    height: 60px;
+  }
+  .slider-arrow img {
+    width: 40px;
+    height: 40px;
+  }
+  .slider-dot {
+    height: 15px;
+    width: 15px;
+    margin: 0 10px;
+    border-width: 2px;
+  }
+  .slider-dot.active {
+    border-width: 3px;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1600px) {
+  .slider-text {
+    font-size: 3.5vw;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .slider-text {
+    font-size: 5vw;
+  }
+}
+
+</style>
+<header class="header" style="border: 1px solid #95bdf1; ">
+  <div class="wrapper">
+    <nav class="nav">
+      <ul class="menu" style=" display: flex; justify-content: space-around; padding: 0; margin: 0;">
+        <li class="menu__item"><a [routerLink]="'/offers'" class="menu__link"  style="text-decoration: none;color: #fff; ">Offers</a></li>
+        <li class="menu__item"><a [routerLink]="'/companies'" class="menu__link" style="text-decoration: none;color: #fff; ">Companies</a></li>
+        <li class="menu__item"><a [routerLink]="'/cv'" class="menu__link" style="text-decoration: none; color: #fff;">CV</a></li>
+        <li class="menu__item"><a [routerLink]="'/loginRecruiter'"  class="menu__link" style="text-decoration: none; ">Recruiter</a></li>
+        <li class="menu__item"><a [routerLink]="'/loginCandidate'" class="menu__link" style="text-decoration: none; ">Candidate</a></li>
+      </ul>
+    </nav>
+  </div>
+
+</header>
+
+
+
+
+
+
+
+ 
+

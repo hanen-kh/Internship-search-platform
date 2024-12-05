@@ -1,0 +1,251 @@
+<style>
+    body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  background-color: #f4f4f4;
+}
+
+.dashboard-container {
+  display: flex;
+  width: 100%;
+}
+
+.sidebar {
+  width: 20%;
+  background: #fff;
+  border-right: 1px solid #ddd;
+  padding: 20px;
+}
+
+.sidebar h1 {
+  font-size: 1.8rem;
+  color: #ff5733;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  padding: 10px 0;
+  font-size: 1.2rem;
+}
+
+.main-content {
+  width: 80%;
+  padding: 20px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+header .welcome h2 {
+  font-size: 1.6rem;
+}
+
+header .welcome h3 {
+  color: #555;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.search-bar .notification-icon {
+  margin-left: 10px;
+  font-size: 1.5rem;
+}
+
+.stats {
+  display: flex;
+  gap: 20px;
+}
+
+.stat {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stat h4 {
+  margin-bottom: 10px;
+}
+
+.stat p {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.stat span {
+  color: green;
+}
+
+.application-responses,
+.recent-jobs {
+  margin-top: 20px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  padding: 10px;
+  text-align: left;
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #fff;
+  text-align: center;
+}
+
+.status.on-hold {
+  background: #f0ad4e;
+}
+
+.status.approved {
+  background: #5cb85c;
+}
+
+.status.rejected {
+  background: #d9534f;
+}
+
+.status.active {
+  background: #0275d8;
+}
+
+</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+</head>
+<body>
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <h1>where?</h1>
+      <nav>
+        <ul>
+          <li>Dashboard</li>
+          <li>Post Job</li>
+          <li>Post Internship</li>
+          <li>Applications</li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header>
+        <div class="welcome">
+          <h2>Welcome back to where?</h2>
+          <h3>TESLA</h3>
+        </div>
+        <div class="search-bar">
+          <input type="text" placeholder="Search for Jobs and etc.">
+          <div class="notification-icon">🔔</div>
+        </div>
+      </header>
+
+      <section class="stats">
+        <div class="stat">
+          <h4>Job Posts</h4>
+          <p>2,456</p>
+          <span>+2.5%</span>
+        </div>
+        <div class="stat">
+          <h4>Total Applications</h4>
+          <p>4,561</p>
+          <span>-4.4%</span>
+        </div>
+        <div class="stat">
+          <h4>No of Meetings</h4>
+          <p>125</p>
+          <span>+1.5%</span>
+        </div>
+        <div class="stat">
+          <h4>No of Hirings</h4>
+          <p>2,456</p>
+          <span>+4.5%</span>
+        </div>
+      </section>
+
+      <section class="application-responses">
+        <h4>Application Response</h4>
+        <div class="response-chart">
+          <!-- Placeholder for chart -->
+          <p>Chart goes here</p>
+        </div>
+      </section>
+
+      <section class="recent-jobs">
+        <h4>Recent Job Posts</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Job Title</th>
+              <th>Category</th>
+              <th>Openings</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>UI UX Designer</td>
+              <td>Full Time</td>
+              <td>12</td>
+              <td class="status on-hold">On hold</td>
+            </tr>
+            <tr>
+              <td>Full Stack Dev</td>
+              <td>Full Time</td>
+              <td>8</td>
+              <td class="status on-hold">On hold</td>
+            </tr>
+            <tr>
+              <td>DevOps</td>
+              <td>Internship</td>
+              <td>12</td>
+              <td class="status approved">Approved</td>
+            </tr>
+            <tr>
+              <td>DevOps</td>
+              <td>Internship</td>
+              <td>12</td>
+              <td class="status rejected">Rejected</td>
+            </tr>
+            <tr>
+              <td>iOS Developer</td>
+              <td>Full Time</td>
+              <td>18</td>
+              <td class="status active">Active</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

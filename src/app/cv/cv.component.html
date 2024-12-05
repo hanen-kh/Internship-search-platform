@@ -1,0 +1,188 @@
+<div style="display: flex; gap: 20px; padding: 20px; font-family: Arial, sans-serif">
+    <!-- Section du formulaire -->
+    <div
+      style="
+        flex: 1;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      "
+    >
+      <h2 style="text-align: center; color: #007bff">Create Your CV</h2>
+      <form>
+        <!-- Informations personnelles -->
+        <label for="name">Full Name</label>
+        <input
+          type="text"
+          id="name"
+          [(ngModel)]="cvData.name"
+          name="name"
+          placeholder="Enter your name"
+          style="
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+          "
+        />
+  
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="cvData.email"
+          name="email"
+          placeholder="Enter your email"
+          style="
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+          "
+        />
+  
+        <label for="phone">Phone Number</label>
+        <input
+          type="tel"
+          id="phone"
+          [(ngModel)]="cvData.phone"
+          name="phone"
+          placeholder="Enter your phone number"
+          style="
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+          "
+        />
+  
+        <!-- Téléchargement de photo -->
+        <label for="photo">Upload Your Photo</label>
+        <input
+          type="file"
+          id="photo"
+          (change)="onFileSelected($event)"
+          style="
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+          "
+        />
+  
+        <!-- Résumé -->
+        <label for="summary">Summary</label>
+        <textarea
+          id="summary"
+          [(ngModel)]="cvData.summary"
+          name="summary"
+          placeholder="Write a brief summary about yourself"
+          rows="4"
+          style="
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+          "
+        ></textarea>
+  
+        <!-- Compétences -->
+        <label for="skills">Skills</label>
+        <textarea
+          id="skills"
+          [(ngModel)]="cvData.skills"
+          name="skills"
+          placeholder="List your skills separated by commas"
+          rows="3"
+          style="
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+          "
+        ></textarea>
+  
+        <!-- Bouton pour télécharger le CV -->
+        <button
+          type="button"
+          (click)="generatePDF()"
+          style="
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+          "
+        >
+          Download CV
+        </button>
+      </form>
+    </div>
+  
+    <!-- Section de prévisualisation -->
+    <div
+      style="
+        flex: 1;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        border-left: 5px solid #007bff;
+      "
+    >
+      <h2 style="text-align: center; color: #007bff">CV Preview</h2>
+  
+      <!-- Photo -->
+      <div style="text-align: center; margin-bottom: 20px;">
+        <img
+          [src]="cvData.photo || 'https://via.placeholder.com/150'"
+          alt="Profile Photo"
+          style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 2px solid #007bff"
+        />
+      </div>
+  
+      <!-- Informations personnelles -->
+      <div>
+        <h1 style="color: #007bff">{{ cvData.name || 'Your Name' }}</h1>
+        <p>{{ cvData.email || 'Your Email' }}</p>
+        <p>{{ cvData.phone || 'Your Phone Number' }}</p>
+      </div>
+  
+      <!-- Résumé -->
+      <div>
+        <h3
+          style="
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+            color: #555;
+          "
+        >
+          Summary
+        </h3>
+        <p>{{ cvData.summary || 'Your summary will appear here...' }}</p>
+      </div>
+  
+      <!-- Compétences -->
+      <div>
+        <h3
+          style="
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+            color: #555;
+          "
+        >
+          Skills
+        </h3>
+        <p>{{ cvData.skills || 'Your skills will appear here...' }}</p>
+      </div>
+    </div>
+  </div>
+  
