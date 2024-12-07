@@ -11,6 +11,7 @@ import where.Services.CandidateService;
 @AllArgsConstructor
 @NoArgsConstructor
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/candidate")
 public class CandidateController {
     @Autowired

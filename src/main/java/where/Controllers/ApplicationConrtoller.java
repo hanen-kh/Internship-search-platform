@@ -10,6 +10,7 @@ import where.Services.ApplicationService;
 import java.io.IOException;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/application")
 public class ApplicationConrtoller {
     @Autowired

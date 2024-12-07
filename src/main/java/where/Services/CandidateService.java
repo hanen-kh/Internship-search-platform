@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import where.Entities.Candidate;
+import where.Entities.Role;
+import where.Entities.TypeRole;
 import where.Repositories.CandidateRepository;
+import where.Repositories.RoleRepository;
 
 import java.util.Optional;
 
@@ -14,6 +17,8 @@ public class CandidateService {
     CandidateRepository candidateRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    private RoleRepository roleRepository;
 
     public Candidate saveCandidate(Candidate candidate) {
         if (candidate.getPassword() == null || candidate.getPassword().isEmpty()) {
@@ -22,6 +27,13 @@ public class CandidateService {
 
         // Crypter le mot de passe
         candidate.setPassword(passwordEncoder.encode(candidate.getPassword()));
+
+        Optional<Role> candidateRole = roleRepository.findByLibelle(TypeRole.CANDIDATE);
+        if (candidateRole.isPresent()) {
+            candidate.setRole(candidateRole.get());
+        } else {
+            throw new RuntimeException("Role CANDIDATE doesn't exist");
+        }
 
         // Sauvegarder le candidat
         return candidateRepository.save(candidate);
