@@ -8,6 +8,6 @@ import where.Services.EmailService;
 public class EmailConfig {
     @Bean
     public EmailService emailService() {
-        return new EmailService();
+        return  new EmailService();
     }
 }
