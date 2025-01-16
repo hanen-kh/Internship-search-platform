@@ -9,15 +9,17 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import where.Entities.Company;
-import where.Entities.Recruiter;
-import where.Entities.Role;
-import where.Entities.TypeRole;
+import where.Entities.*;
 import where.Repositories.CompanyRepository;
 import where.Repositories.RecruiterRepository;
 import where.Repositories.RoleRepository;
+import where.Repositories.ValidationRepository;
+import where.Services.EmailService;
 import where.Services.RecruiterService;
+import where.Services.UserService;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,6 +32,11 @@ public class RecruiterServiceTest {
     @InjectMocks
     private RecruiterService recruiterService;
     @Mock
+    UserService userService;
+
+    @Mock
+    private ValidationRepository validationRepository;
+    @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
     private RoleRepository roleRepository;
@@ -37,6 +44,8 @@ public class RecruiterServiceTest {
     RecruiterRepository recruiterRepository;
     @Mock
     private CompanyRepository companyRepository;
+    @Mock
+    private EmailService emailService;
 
     @BeforeEach
     void setUp() {
@@ -70,18 +79,16 @@ public class RecruiterServiceTest {
         when(recruiterRepository.save(any(Recruiter.class))).thenReturn(recruiter);
 
         // Act
-        Recruiter result = recruiterService.createRecruiter(recruiter, company);
+        String response = recruiterService.saveRecruiterTemporary(recruiter, company);
 
-        // Assert
-        assertNotNull(result);
-        assertEquals(savedCompany, result.getCompany());
-        assertEquals(recruiterRole, result.getRole());
-        assertNotEquals("password123", result.getPassword()); // Le mot de passe doit être encodé
 
         verify(companyRepository, times(1)).findByName("TechCorp");
         verify(companyRepository, times(1)).save(any(Company.class));
         verify(roleRepository, times(1)).findByLibelle(TypeRole.RECRUITER);
         verify(recruiterRepository, times(1)).save(any(Recruiter.class));
+
+        assertEquals("You are temporarily registered. An email has been sent to : john.doe@example.com", response);
+        verify(emailService, times(1)).sendSimpleEmail(eq("john.doe@example.com"), anyString(), anyString());
     }
 
     @Test
@@ -91,7 +98,7 @@ public class RecruiterServiceTest {
         recruiter.setFirstname("Jane");
         recruiter.setLastname("Smith");
         recruiter.setEmail("jane.smith@example.com");
-        recruiter.setPassword("securePassword");
+
 
         Company existingCompany = new Company();
         existingCompany.setId(1L);
@@ -107,13 +114,33 @@ public class RecruiterServiceTest {
         when(recruiterRepository.save(any(Recruiter.class))).thenReturn(recruiter);
 
         // Act
-        recruiterService.createRecruiter(recruiter, existingCompany);
+        recruiterService.saveRecruiterTemporary(recruiter, existingCompany);
 
         // Assert
         assertEquals(existingCompany, recruiter.getCompany());
         verify(companyRepository, times(1)).findByName("ExistingCorp");
         verify(companyRepository, times(0)).save(any(Company.class));
         verify(recruiterRepository, times(1)).save(any(Recruiter.class));
+    }
+
+    @Test
+    void validateCandidate_ShouldValidateAndSavePassword() {
+        Recruiter recruiter=new Recruiter();
+        recruiter.setEmail("john.doe@example.com");
+
+        Validation validation = new Validation();
+        validation.setUtilisateur(recruiter);
+        validation.setCode("123456");
+        validation.setExpiration(Instant.now().plus(2, ChronoUnit.MINUTES));
+
+        when(validationRepository.findByUtilisateurEmail("john.doe@example.com")).thenReturn(Optional.of(validation));
+        when(recruiterRepository.save(any(Recruiter.class))).thenReturn(recruiter);
+
+        String response = recruiterService.validateRecruiter("john.doe@example.com", "123456", "password123");
+
+        assertEquals("Successfully validated !", response);
+        verify(recruiterRepository, times(1)).save(recruiter);
+        verify(validationRepository, times(1)).delete(validation);
     }
 
     @Test
@@ -134,7 +161,7 @@ public class RecruiterServiceTest {
 
         // Act & Assert
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            recruiterService.createRecruiter(recruiter, company);
+            recruiterService.saveRecruiterTemporary(recruiter, company);
         });
 
         assertEquals("Role RECRUITER doesn't exist", exception.getMessage());

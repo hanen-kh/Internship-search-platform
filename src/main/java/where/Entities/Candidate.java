@@ -1,4 +1,5 @@
 package where.Entities;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,8 +15,10 @@ import java.util.Date;
 @Entity
 public class Candidate extends User implements Serializable {
     private static final long SerialVersionUID=1L;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date dateOfBirth;
-    private String University;
+
+    private String university;
 
 
 }

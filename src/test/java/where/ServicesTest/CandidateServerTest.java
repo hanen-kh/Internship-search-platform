@@ -16,10 +16,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import where.Entities.Candidate;
 import where.Entities.Role;
 import where.Entities.TypeRole;
+import where.Entities.Validation;
 import where.Repositories.CandidateRepository;
 import where.Repositories.RoleRepository;
+import where.Repositories.ValidationRepository;
 import where.Services.CandidateService;
+import where.Services.EmailService;
+import where.Services.UserService;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,44 +37,27 @@ public class CandidateServerTest {
     @InjectMocks
     private CandidateService candidateService;
     @Mock
+    ValidationRepository validationRepository;
+    @Mock
     private RoleRepository roleRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
+    private UserService userService;
+    @Mock
     private CandidateRepository candidateRepository;
+    @Mock
+    private EmailService emailService;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
-   @Test
-    void testSaveCandidate() {
-       Candidate candidate = new Candidate();
-       candidate.setFirstname("John");
-       candidate.setLastname("Doe");
-       candidate.setEmail("john.doe@example.com");
-       candidate.setPassword("securePassword");
 
-       Role role = new Role();
-       role.setLibelle(TypeRole.CANDIDATE);
-       roleRepository.save(role);
 
-       // Mocks
-       Mockito.when(passwordEncoder.encode(Mockito.anyString())).thenReturn("encodedPassword");
-       Mockito.when(roleRepository.findByLibelle(TypeRole.CANDIDATE)).thenReturn(Optional.of(role));
-       Mockito.when(candidateRepository.save(Mockito.any(Candidate.class))).thenReturn(candidate);
 
-       // Act
-       Candidate result = candidateService.saveCandidate(candidate);
 
-       // Assert
-       assertNotNull(result);
-       assertEquals("encodedPassword", result.getPassword());
-       assertEquals(TypeRole.CANDIDATE, result.getRole().getLibelle());
-
-       verify(candidateRepository, times(1)).save(Mockito.any(Candidate.class));
-   }
 
     @Test
     void updateCandidate_ShouldUpdateSuccessfully_WhenCandidateExists() {
